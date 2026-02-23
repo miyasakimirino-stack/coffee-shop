@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deluxe Cafe - Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D2691E;
+            --light-bg: #F5E6D3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translteY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .login-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .login-body {
+            padding: 3rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.7rem;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 69, 19, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .alert {
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            border: none;
+            padding: 1rem;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .info-section {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .info-section h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .credentials {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .credentials-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .credentials-row:last-child {
+            border-bottom: none;
+        }
+
+        .credentials-label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .credentials-value {
+            color: #333;
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .back-to-shop {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-to-shop a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-to-shop a:hover {
+            gap: 0.8rem;
+        }
+
+        .icon-input {
+            position: relative;
+        }
+
+        .icon-input i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .icon-input input {
+            padding-left: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Header -->
+        <div class="login-header">
+            <h1>
+                <i class="fas fa-lock"></i>
+                Admin Panel
+            </h1>
+            <p>Deluxe Cafe - ระบบจัดการสินค้า</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-body">
+            <!-- Error Message -->
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user" style="color: var(--primary-color);"></i>
+                        Username
+                    </label>
+                    <div class="icon-input">
+                        <i class="fas fa-user"></i>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            placeholder="กรอก username" 
+                            required
+                            autofocus
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock" style="color: var(--primary-color);"></i>
+                        Password
+                    </label>
+                    <div class="icon-input">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="กรอก password" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                </button>
+            </form>
+
+            <!-- Info Section -->
+            <div class="info-section">
+                <h6><i class="fas fa-info-circle"></i> ข้อมูลเข้าสู่ระบบ (ทดสอบ)</h6>
+                <div class="credentials">
+                    <div class="credentials-row">
+                        <span class="credentials-label">Username:</span>
+                        <span class="credentials-value">admin</span>
+                    </div>
+                    <div class="credentials-row">
+                        <span class="credentials-label">Password:</span>
+                        <span class="credentials-value">1234</span>
+                    </div>
+                </div>
+                <p class="info-text">
+                    ⚠️ นี้คือ Demo Account สำหรับทดสอบระบบ
+                </p>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="back-to-shop" style="text-align: center;">
+                <div style="margin-bottom: 1rem;">
+                    <a href="{{ url_for('index') }}" style="display: inline-block; margin-right: 1rem;">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="{{ url_for('index') }}#products" style="display: inline-block; margin-right: 1rem;">
+                        <i class="fas fa-shopping-bag"></i> Products
+                    </a>
+                    <a href="{{ url_for('cart') }}" style="display: inline-block;">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </div>
+                <a href="{{ url_for('index') }}" style="display: inline-block;">
+                    <i class="fas fa-arrow-left"></i>
+                    กลับไปที่ร้านสินค้า
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deluxe Cafe - Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #5C3D2E;
+            --secondary-color: #A0522D;
+            --accent-color: #6B8E23;
+            --cream-color: #FDF8F3;
+            --light-green: #E8F3E8;
+            --dark-brown: #3E2723;
+            --text-color: #4A4A4A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream-color);
+            color: var(--text-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 1.2rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--cream-color) !important;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--cream-color) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Cart Container */
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .cart-main {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--cream-color);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f5deb3, #daa520);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-image i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            opacity: 0.6;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+        }
+
+        .quantity-control button {
+            background: none;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-control button:hover {
+            background: var(--light-green);
+        }
+
+        .quantity-control input {
+            width: 50px;
+            border: none;
+            text-align: center;
+            font-weight: 700;
+            padding: 0.5rem 0.3rem;
+        }
+
+        .remove-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .remove-btn:hover {
+            background: #dc3545;
+            transform: scale(1.05);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #999;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .empty-cart h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .summary-row label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .summary-row .value {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--accent-color), #7CB342);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(107, 142, 35, 0.3);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(107, 142, 35, 0.4);
+            background: linear-gradient(135deg, #7CB342, var(--accent-color));
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .continue-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-color) 100%);
+            color: var(--cream-color);
+            padding: 3rem 0 1rem;
+            margin-top: 5rem;
+            text-align: center;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        footer p {
+            font-weight: 500;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            .cart-main {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .item-image {
+                width: 100%;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-coffee"></i>
+                Deluxe Cafe
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#products">
+                            <i class="fas fa-shopping-bag"></i> Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-lock"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>🛒 Your Shopping Cart</h1>
+        <p>Review your selected coffee items</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="cart-container">
+        <div class="cart-main">
+            <!-- Cart Items -->
+            <div class="cart-items">
+                <h2 class="cart-title">
+                    <i class="fas fa-coffee"></i>
+                    Cart Items
+                </h2>
+
+                <!-- Cart Item 1 (Example) -->
+                <div class="cart-item">
+                    <div class="item-image">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Arabica Premium</div>
+                        <div class="item-price">฿350</div>
+                        <div class="item-controls">
+                            <div class="quantity-control">
+                                <button>−</button>
+                                <input type="number" value="1" readonly>
+                                <button>+</button>
+                            </div>
+                            <button class="remove-btn">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 2 (Example) -->
+                <div class="cart-item">
+                    <div class="item-image">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">Ethiopian Natural</div>
+                        <div class="item-price">฿380</div>
+                        <div class="item-controls">
+                            <div class="quantity-control">
+                                <button>−</button>
+                                <input type="number" value="2" readonly>
+                                <button>+</button>
+                            </div>
+                            <button class="remove-btn">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty Cart Message (Hidden) -->
+                <!-- <div class="empty-cart">
+                    <i class="fas fa-inbox"></i>
+                    <h3>Your Cart is Empty</h3>
+                    <p>Add some delicious coffee from our store!</p>
+                </div> -->
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h3 class="summary-title">
+                    <i class="fas fa-receipt"></i>
+                    Order Summary
+                </h3>
+
+                <div class="summary-row">
+                    <label>Subtotal:</label>
+                    <span class="value">฿1,110</span>
+                </div>
+
+                <div class="summary-row">
+                    <label>Shipping:</label>
+                    <span class="value">฿50</span>
+                </div>
+
+                <div class="summary-row">
+                    <label>Tax (7%):</label>
+                    <span class="value">฿81</span>
+                </div>
+
+                <div class="summary-row total">
+                    <label>Total:</label>
+                    <span class="value">฿1,241</span>
+                </div>
+
+                <button class="checkout-btn">
+                    <i class="fas fa-credit-card"></i> Checkout Now
+                </button>
+
+                <a href="/" class="continue-btn">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Deluxe Cafe. All Rights Reserved. | ☕ Fresh Coffee Delivered</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
